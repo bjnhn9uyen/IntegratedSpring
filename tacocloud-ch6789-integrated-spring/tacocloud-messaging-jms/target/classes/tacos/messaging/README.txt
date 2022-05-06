@@ -1,0 +1,1 @@
+This module is a JMS client for sending orders to the kitchen module (server)
