@@ -8,6 +8,8 @@ The multi-module Maven project is made up of the following modules:
 
 • tacocloud-domain : The domain types
 
+• tacocloud-email : The email module that demonstrates using Spring Integration to handle orders by email. (missing)
+
 • tacocloud-kitchen : An application to be run in the Taco Cloud kitchen that will receive orders for kitchen staff to prepare.
 
 • tacocloud-messaging-jms : The Taco Cloud messaging module that sends messages using JMS.
@@ -25,6 +27,8 @@ The multi-module Maven project is made up of the following modules:
 • tacocloud-web : The web module
 
 • tacocloud : The main module that pulls the other modules together and provides the Spring Boot main class.
+
+In order to use the email integration module, you will need to edit the src/main/resources/application/yml file in the tacocloud-email module, providing the configuration for an email server of your choosing. The values configured in there now are just placeholders and will not work.
 
 The tacocloud-restclient module, while part of the Maven multi-module build, is otherwise separate from the rest of the Taco Cloud application. It contains sample code that demonstrates how to use RestTemplate and Traverson to consume the APIs exposed by the Taco Cloud application.
 
