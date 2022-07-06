@@ -10,7 +10,7 @@ The multi-module Maven project is made up of the following modules:
 
 • tacocloud-security : The security module (security isn’t working yet, so there’s no login page. Likewise, there’s not yet any way to register.)
 
-• tacocloud-web : The web module
+• tacos : The main module that pulls the other modules together and provides the Spring Boot main class
 
 • tacocloud-ui : A Typescript Angular UI (chapter 6 - integrating with Angular)
 
@@ -23,8 +23,6 @@ The multi-module Maven project is made up of the following modules:
 • tacocloud-messaging-kafka : The Taco Cloud messaging module that sends messages using Kafka (chapter 8  - integrating with Taco cloud kitchens application using messaging API)
 
 • tacocloud-messaging-rabbitmq : The Taco Cloud messaging module that sends messages using RabbitMQ (chapter 8  - integrating with Taco cloud kitchens application using messaging API)
-
-• tacocloud : The main module that pulls the other modules together and provides the Spring Boot main class
 
 In order to use the email integration module, you will need to edit the src/main/resources/application/yml file in the tacocloud-email module, providing the configuration for an email server of your choosing. The values configured in there now are just placeholders and will not work.
 
