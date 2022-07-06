@@ -8,25 +8,23 @@ The multi-module Maven project is made up of the following modules:
 
 • tacocloud-domain : The domain types
 
-• tacocloud-email : The email module that demonstrates using Spring Integration to handle orders by email. (missing)
-
-• tacocloud-kitchen : An application to be run in the Taco Cloud kitchen that will receive orders for kitchen staff to prepare.
-
-• tacocloud-messaging-jms : The Taco Cloud messaging module that sends messages using JMS.
-
-• tacocloud-messaging-kafka : The Taco Cloud messaging module that sends messages using Kafka.
-
-• tacocloud-messaging-rabbitmq : The Taco Cloud messaging module that sends messages using RabbitMQ.
-
-• tacocloud-restclient : Client code that consumes the API exposed from tacocloud-api.
-
 • tacocloud-security : The security module (security isn’t working yet, so there’s no login page. Likewise, there’s not yet any way to register.)
-
-• tacocloud-ui : A Typescript Angular UI
 
 • tacocloud-web : The web module
 
-• tacocloud : The main module that pulls the other modules together and provides the Spring Boot main class.
+• tacocloud-ui : A Typescript Angular UI (chapter 6 - integrating with Angular)
+
+• tacocloud-restclient : Client code that consumes the API exposed from tacocloud-api (chapter 7 - integrating with REST clients)
+
+• tacocloud-kitchen : An application to be run in the Taco Cloud kitchen that will receive orders for kitchen staff to prepare (chapter 8 - integrating with Taco cloud kitchens application using messaging API)
+
+• tacocloud-messaging-jms : The Taco Cloud messaging module that sends messages using JMS (chapter 8  - integrating with Taco cloud kitchens application using messaging API)
+
+• tacocloud-messaging-kafka : The Taco Cloud messaging module that sends messages using Kafka (chapter 8  - integrating with Taco cloud kitchens application using messaging API)
+
+• tacocloud-messaging-rabbitmq : The Taco Cloud messaging module that sends messages using RabbitMQ (chapter 8  - integrating with Taco cloud kitchens application using messaging API)
+
+• tacocloud : The main module that pulls the other modules together and provides the Spring Boot main class
 
 In order to use the email integration module, you will need to edit the src/main/resources/application/yml file in the tacocloud-email module, providing the configuration for an email server of your choosing. The values configured in there now are just placeholders and will not work.
 

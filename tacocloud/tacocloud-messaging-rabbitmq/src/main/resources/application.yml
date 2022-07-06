@@ -1,0 +1,17 @@
+#spring:  
+#  profiles:
+#    active:
+#      - prod
+
+---
+#For development purposes, you’ll probably have a RabbitMQ broker that doesn’t require authentication running on your local machine, listening on port 5672
+#These properties likely won’t get much use while you’re still in development, but they’ll no doubt prove useful when your applications move into production
+#For example, suppose that as you move into production, your RabbitMQ broker is on a server named rabbit.tacocloud.com, 
+#listening on port 5673, and requiring credentials
+spring:
+  profiles: prod
+  rabbitmq:
+    host: rabbit.tacocloud.com
+    port: 5673
+    username: tacoweb
+    password: l3tm31n
