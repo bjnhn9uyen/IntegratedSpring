@@ -12,7 +12,7 @@ The multi-module Maven project is made up of the following modules:
 
 • tacos : The main module that pulls the other modules together and provides the Spring Boot main class
 
-• tacocloud-ui : A Typescript Angular UI (chapter 6 - integrating with Angular)
+• tacocloud-ui : A Typescript Angular UI (chapter 6 - integrating with Angular - in a separate repository)
 
 • tacocloud-restclient : Client code that consumes the API exposed from tacocloud-api (chapter 7 - integrating with REST clients)
 
