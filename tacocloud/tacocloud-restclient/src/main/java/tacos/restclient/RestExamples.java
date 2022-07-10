@@ -15,14 +15,15 @@ import org.springframework.web.client.RestTemplate;
 import lombok.extern.slf4j.Slf4j;
 import tacos.Ingredient;
 
-@SpringBootConfiguration
+/* comment out '@SpringBootConfiguration' and main method for running on Heroku server, just need only one @SpringBootApplication in 'tacos' module */
+//@SpringBootConfiguration
 @ComponentScan
 @Slf4j
 public class RestExamples {
 
-	public static void main(String[] args) {
-		SpringApplication.run(RestExamples.class, args);
-	}
+//	public static void main(String[] args) {
+//		SpringApplication.run(RestExamples.class, args);
+//	}
 
 	/*
 	 * Assuming that the API isn’t HATEOAS-enabled, if the API you’re consuming includes HATEOAS hyper-links in its response, RestTemplate isn’t as
