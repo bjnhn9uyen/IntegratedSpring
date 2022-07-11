@@ -1,5 +1,7 @@
 package tacos.security;
 
+import java.util.Arrays;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -11,6 +13,9 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.web.cors.CorsConfiguration;
+import org.springframework.web.cors.CorsConfigurationSource;
+import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
 /** @Configuration annotation designates this class as a configuration class. */
 @SuppressWarnings("deprecation")
@@ -108,6 +113,19 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 				// .defaultSuccessUrl("/", true)// If you enable this line, the test will fail because it expects the URL prior to logging in
 
 				.and().logout().logoutSuccessUrl("/");
+	}
+	
+	@Bean
+	CorsConfigurationSource corsConfigurationSource() {
+		UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
+		CorsConfiguration config = new CorsConfiguration();
+		config.setAllowedOriginPatterns(Arrays.asList("*"));
+		config.setAllowedMethods(Arrays.asList("*"));
+		config.setAllowedHeaders(Arrays.asList("*"));
+		config.setAllowCredentials(true);
+		config.applyPermitDefaultValues();
+		source.registerCorsConfiguration("/**", config);
+		return source;
 	}
 
 }
