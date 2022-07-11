@@ -7,17 +7,11 @@ spring:
 #    user:
 #      name: user0000
 #      password: aA@00000
-#  h2:#    console:#      enabled: true
-#  datasource:
-#    url: jdbc:h2:mem:testdb
+
   jpa:
     hibernate.ddl-auto: create
     show-sql: true
-  datasource:
-    data: classpath:data.sql
-    initialization-mode: always
-    
-    
+
 #This sets the base path for Spring Data REST end-points to /api. Consequently, the ingredients end-point is now /api/ingredients (similiar for other end-points)
   data:
     rest:
@@ -26,7 +20,18 @@ spring:
 #Activating Spring profiles. See Spring profiles down below, after three hyphens ---
 #  profiles:
 #    active:
-#      - prod
+#      - dev
+
+---
+spring:
+  profiles: dev
+  
+  datasource:
+    url: jdbc:h2:mem:testdb
+    
+  h2:
+    console:
+      enabled: true
 
 #Spring profiles
 #For example, for development and debugging purposes, you want to use the embedded H2 database, and you want the logging to be set to DEBUG. 
@@ -40,14 +45,11 @@ spring:
 spring:
   profiles: prod
   
-#If this profile is active, the data-source properties will be set to use the external MySQL/PostgreSQL database instead of H2 database (default profile)
+#If this profile is active, the data-source properties will be set to use the external MySQL database instead of H2 database
   datasource:
     url: jdbc:mysql://localhost/tacocloud
     username: root
     password: admin
-    initialization-mode: always
-    data: classpath:ingredients.sql
-      
   jpa:
     generate-ddl: true
    

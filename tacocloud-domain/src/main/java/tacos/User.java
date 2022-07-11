@@ -22,7 +22,7 @@ import lombok.RequiredArgsConstructor;
 @Data
 @NoArgsConstructor(access = AccessLevel.PRIVATE, force = true)
 @RequiredArgsConstructor
-@Table(name="\"user\"")// 'user' reserved word in PostgreSQL
+@Table(name="\"user\"")// create table in postgresql/mssql/h2 with the reserved keyword "user"
 public class User implements UserDetails {
 	/*
 	 * Implementations of UserDetails will provide some essential user information to the framework, such as what authorities are granted to the user
