@@ -13,6 +13,7 @@ spring:
   jpa:
     hibernate.ddl-auto: create
     show-sql: true
+    generate-ddl: true
   datasource:
     data: classpath:ingredients.sql
     initialization-mode: always
