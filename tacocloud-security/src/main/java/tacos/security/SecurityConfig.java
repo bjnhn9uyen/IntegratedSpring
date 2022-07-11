@@ -80,6 +80,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 				.antMatchers(HttpMethod.POST, "/design").permitAll()
 
 				.anyRequest().access("hasRole('ROLE_USER')")
+				
+				.anyRequest().authenticated()
 
 				/*
 				 * Expressions can be much more flexible, suppose that you only wanted to allow users with ROLE_USER authority to create new tacos on
