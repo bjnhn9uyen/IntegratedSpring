@@ -1,7 +1,5 @@
 package tacos.security;
 
-import java.util.Arrays;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -13,9 +11,6 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.web.cors.CorsConfiguration;
-import org.springframework.web.cors.CorsConfigurationSource;
-import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
 /** @Configuration annotation designates this class as a configuration class. */
 @SuppressWarnings("deprecation")
@@ -60,39 +55,37 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
 
-		http.csrf().disable()
+		/*
+		 * You need to ensure that requests for /design and /orders are only available to authenticated users; all other requests should be permitted
+		 * for all users. The order of these rules is important. Security rules declared first take precedence over those declared lower down. If you
+		 * were to swap the order of those two security rules, all requests would have permitAll() applied to them; the rule for /design and /orders
+		 * requests would have no effect.
+		 */
+		http.authorizeRequests()
 
-//				.headers().frameOptions().sameOrigin()
+//				.antMatchers("/design", "/orders", "/orders/current").access("hasRole('ROLE_USER')")
 
-				/*
-				 * Because the Angular portion of the application will be running on a separate host and/or port from the API (at least for now), the
-				 * web browser will prevent your Angular client from consuming the API. This restriction can be overcome by including CORS
-				 * (Cross-Origin Resource Sharing) headers in the server responses.
-				 */
-				.cors().disable()
+				.antMatchers(HttpMethod.OPTIONS).permitAll() // needed for Angular/CORS
 
-				.authorizeRequests()
+				.antMatchers("/design", "/orders/**").permitAll()
 
-//				.antMatchers("/h2-console/**").permitAll()
+				.antMatchers(HttpMethod.PATCH, "/ingredients").permitAll()
 
-				.antMatchers(HttpMethod.GET, "/ingredients", "/design/recent").permitAll()
-
-				.antMatchers(HttpMethod.POST, "/design").permitAll()
-
-				.anyRequest().access("hasRole('ROLE_USER')");
+				.antMatchers("/", "/**").access("permitAll")
 
 				/*
 				 * Expressions can be much more flexible, suppose that you only wanted to allow users with ROLE_USER authority to create new tacos on
 				 * Tuesdays
 				 */
-//				.anyRequest().access("hasRole('ROLE_USER') && T(java.util.Calendar).getInstance().get(T(java.util.Calendar).DAY_OF_WEEK) == T(java.util.Calendar).TUESDAY")
+				// .access("hasRole('ROLE_USER') && T(java.util.Calendar).getInstance().get(T(java.util.Calendar).DAY_OF_WEEK) ==
+				// T(java.util.Calendar).TUESDAY")
 
 				/*
 				 * To replace the built-in login page, you first need to tell Spring Security what path your custom login page will be at. Then you
 				 * need to provide a controller that handles requests at this path. Because your login page will be fairly simple (nothing but a view)
 				 * it’s easy enough to declare it as a view controller in WebConfig. (see WebConfig)
 				 */
-//				.and().formLogin().loginPage("/login")
+				.and().formLogin().loginPage("/login")
 
 				/*
 				 * By default, Spring Security listens for login requests at /login and expects that the username and password fields be named
@@ -112,20 +105,12 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 				 */
 				// .defaultSuccessUrl("/", true)// If you enable this line, the test will fail because it expects the URL prior to logging in
 
-//				.and().logout().logoutSuccessUrl("/");
-	}
-	
-	@Bean
-	CorsConfigurationSource corsConfigurationSource() {
-		UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
-		CorsConfiguration config = new CorsConfiguration();
-		config.setAllowedOriginPatterns(Arrays.asList("*"));
-		config.setAllowedMethods(Arrays.asList("*"));
-		config.setAllowedHeaders(Arrays.asList("*"));
-		config.setAllowCredentials(true);
-		config.applyPermitDefaultValues();
-		source.registerCorsConfiguration("/**", config);
-		return source;
-	}
+				.and().logout().logoutSuccessUrl("/")
 
+				/* Make H2-Console non-secured; for debug purposes */
+				.and().csrf().ignoringAntMatchers("/h2-console/**", "/ingredients/**", "/design", "/orders/**")
+
+				/* Allow pages to be loaded in frames from the same origin; needed for H2-Console */
+				.and().headers().frameOptions().sameOrigin();
+	}
 }
