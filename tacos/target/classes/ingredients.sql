@@ -1,4 +1,4 @@
---There are 2 Spring profile with 2 different datasources (H2 and MySQL). H2 respects the order in this list when Spring executes the script.
+--There are 2 Spring profile with 2 different datasources (H2 and MySQL/PostgreSQL). H2 respects the order in this list when Spring executes the script.
 --But MySQL reorders this list in alphabet order by id. This order in this list is little bit differrent from previous chapters,
 --so that the unit tests can pass in both Spring profile with 2 different orders of Ingredient data.
 insert into Ingredient (id, name, type)
