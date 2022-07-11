@@ -60,18 +60,17 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
 
-		http.csrf().disable()
+		http.csrf().and().cors().disable()
 
-				.headers().frameOptions().sameOrigin()
+//				.headers().frameOptions().sameOrigin()
 
 				/*
 				 * Because the Angular portion of the application will be running on a separate host and/or port from the API (at least for now), the
 				 * web browser will prevent your Angular client from consuming the API. This restriction can be overcome by including CORS
 				 * (Cross-Origin Resource Sharing) headers in the server responses.
 				 */
-				.and().cors()
 
-				.and().authorizeRequests()
+				.authorizeRequests()
 
 				.antMatchers("/h2-console/**").permitAll()
 
@@ -80,43 +79,42 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 				.antMatchers(HttpMethod.POST, "/design").permitAll()
 
 				.anyRequest().access("hasRole('ROLE_USER')")
-				
+
 				.anyRequest().authenticated();
 
-				/*
-				 * Expressions can be much more flexible, suppose that you only wanted to allow users with ROLE_USER authority to create new tacos on
-				 * Tuesdays
-				 */
-//				.anyRequest().access("hasRole('ROLE_USER') && T(java.util.Calendar).getInstance().get(T(java.util.Calendar).DAY_OF_WEEK) == T(java.util.Calendar).TUESDAY")
+		/*
+		 * Expressions can be much more flexible, suppose that you only wanted to allow users with ROLE_USER authority to create new tacos on Tuesdays
+		 */
+		// .anyRequest().access("hasRole('ROLE_USER') && T(java.util.Calendar).getInstance().get(T(java.util.Calendar).DAY_OF_WEEK) == T(java.util.Calendar).TUESDAY")
 
-				/*
-				 * To replace the built-in login page, you first need to tell Spring Security what path your custom login page will be at. Then you
-				 * need to provide a controller that handles requests at this path. Because your login page will be fairly simple (nothing but a view)
-				 * it’s easy enough to declare it as a view controller in WebConfig. (see WebConfig)
-				 */
-//				.and().formLogin().loginPage("/login")
+		/*
+		 * To replace the built-in login page, you first need to tell Spring Security what path your custom login page will be at. Then you need to
+		 * provide a controller that handles requests at this path. Because your login page will be fairly simple (nothing but a view) it’s easy
+		 * enough to declare it as a view controller in WebConfig. (see WebConfig)
+		 */
+		// .and().formLogin().loginPage("/login")
 
-				/*
-				 * By default, Spring Security listens for login requests at /login and expects that the username and password fields be named
-				 * 'username' and 'password'. This is configurable, you can customize the path and field names. ('authenticate', 'user', 'pwd')
-				 */
-				// .loginProcessingUrl("/authenticate")
-				// .usernameParameter("user")
-				// .passwordParameter("pwd")
+		/*
+		 * By default, Spring Security listens for login requests at /login and expects that the username and password fields be named 'username' and
+		 * 'password'. This is configurable, you can customize the path and field names. ('authenticate', 'user', 'pwd')
+		 */
+		// .loginProcessingUrl("/authenticate")
+		// .usernameParameter("user")
+		// .passwordParameter("pwd")
 
-				/*
-				 * If the user click on 'Design a taco' in the home page prior to logging in, a successful login would take them to the design page.
-				 * But you can change that by specifying a default success page. Optionally, you can force the user to the specific page after login,
-				 * even if they were navigating elsewhere prior to logging in, by passing true as a second parameter to defaultSuccessUrl. In this
-				 * case, defaultSuccessUrl will force the user to the home page after a successful login even if they clicked on 'Design a taco' prior
-				 * to logging in. Without defaultSuccessUrl, after a successful login, the user will go directly to the design page if they clicked on
-				 * 'Design a taco' prior to logging in.
-				 */
-				// .defaultSuccessUrl("/", true)// If you enable this line, the test will fail because it expects the URL prior to logging in
+		/*
+		 * If the user click on 'Design a taco' in the home page prior to logging in, a successful login would take them to the design page. But you
+		 * can change that by specifying a default success page. Optionally, you can force the user to the specific page after login, even if they
+		 * were navigating elsewhere prior to logging in, by passing true as a second parameter to defaultSuccessUrl. In this case, defaultSuccessUrl
+		 * will force the user to the home page after a successful login even if they clicked on 'Design a taco' prior to logging in. Without
+		 * defaultSuccessUrl, after a successful login, the user will go directly to the design page if they clicked on 'Design a taco' prior to
+		 * logging in.
+		 */
+		// .defaultSuccessUrl("/", true)// If you enable this line, the test will fail because it expects the URL prior to logging in
 
-//				.and().logout().logoutSuccessUrl("/");
+		// .and().logout().logoutSuccessUrl("/");
 	}
-	
+
 	@Bean
 	CorsConfigurationSource corsConfigurationSource() {
 		UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
