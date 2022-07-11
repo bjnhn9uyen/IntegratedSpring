@@ -2,7 +2,6 @@ package tacos.web.api;
 
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.http.HttpStatus;
-import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
@@ -19,7 +18,6 @@ import tacos.data.OrderRepository;
 
 @RestController
 @RequestMapping(path = "/orders", produces = "application/json")
-@CrossOrigin(origins = "*")
 public class OrderController {
 
 	private OrderRepository repo;

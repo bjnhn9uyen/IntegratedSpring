@@ -7,7 +7,6 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -27,15 +26,9 @@ import tacos.data.TacoRepository;
  *
  * The produces attribute in the @RequestMapping annotation, specifies that any of the handler methods in DesignTacoController will only handle
  * requests if the request’s Accept header includes “application/json”
- *
- * Because the Angular portion of the application will be running on a separate host and/or port from the API (at least for now), the web browser will
- * prevent your Angular client from consuming the API. This restriction can be overcome by including CORS (Cross-Origin Resource Sharing) headers in
- * the server responses. Spring makes it easy to apply CORS with the @CrossOrigin annotation. As applied here, @CrossOrigin allows clients from any
- * domain to consume the API.
  */
 @RestController
 @RequestMapping(path = "/design", produces = "application/json")
-@CrossOrigin(origins = "*")
 public class DesignTacoController {
 
 	private TacoRepository tacoRepo;

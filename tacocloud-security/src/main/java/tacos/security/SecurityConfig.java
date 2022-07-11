@@ -54,30 +54,33 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	/* Intercepting requests to ensure that the user has proper authority is one of the most common things you’ll configure HttpSecurity to do. */
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
-		/*
-		 * You need to ensure that requests for /design and /orders are only available to authenticated users; all other requests should be permitted
-		 * for all users. The order of these rules is important. Security rules declared first take precedence over those declared lower down. If you
-		 * were to swap the order of those two security rules, all requests would have permitAll() applied to them; the rule for /design and /orders
-		 * requests would have no effect.
-		 */
-		http.authorizeRequests()
 
-//				.antMatchers("/design", "/orders", "/orders/current").access("hasRole('ROLE_USER')")
+		http.csrf().disable()
 
-				.antMatchers(HttpMethod.OPTIONS).permitAll() // needed for Angular/CORS
+				.headers().frameOptions().sameOrigin()
 
-				.antMatchers("/design", "/orders/**").permitAll()
+				/*
+				 * Because the Angular portion of the application will be running on a separate host and/or port from the API (at least for now), the
+				 * web browser will prevent your Angular client from consuming the API. This restriction can be overcome by including CORS
+				 * (Cross-Origin Resource Sharing) headers in the server responses.
+				 */
+				.and().cors()
 
-				.antMatchers(HttpMethod.PATCH, "/ingredients").permitAll()
+				.and().authorizeRequests()
 
-				.antMatchers("/", "/**").access("permitAll")
+				.antMatchers("/h2-console/**").permitAll()
+
+				.antMatchers(HttpMethod.GET, "/ingredients", "/design/recent").permitAll()
+
+				.antMatchers(HttpMethod.POST, "/design").permitAll()
+
+				.anyRequest().access("hasRole('ROLE_USER')")
 
 				/*
 				 * Expressions can be much more flexible, suppose that you only wanted to allow users with ROLE_USER authority to create new tacos on
 				 * Tuesdays
 				 */
-				// .access("hasRole('ROLE_USER') && T(java.util.Calendar).getInstance().get(T(java.util.Calendar).DAY_OF_WEEK) ==
-				// T(java.util.Calendar).TUESDAY")
+//				.anyRequest().access("hasRole('ROLE_USER') && T(java.util.Calendar).getInstance().get(T(java.util.Calendar).DAY_OF_WEEK) == T(java.util.Calendar).TUESDAY")
 
 				/*
 				 * To replace the built-in login page, you first need to tell Spring Security what path your custom login page will be at. Then you
@@ -104,13 +107,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 				 */
 				// .defaultSuccessUrl("/", true)// If you enable this line, the test will fail because it expects the URL prior to logging in
 
-				.and().logout().logoutSuccessUrl("/")
-
-				/* Make H2-Console non-secured; for debug purposes */
-				.and().csrf().ignoringAntMatchers("/h2-console/**", "/ingredients/**", "/design", "/orders/**")
-
-				/* Allow pages to be loaded in frames from the same origin; needed for H2-Console */
-				.and().headers().frameOptions().sameOrigin();
+				.and().logout().logoutSuccessUrl("/");
 	}
 
 }
