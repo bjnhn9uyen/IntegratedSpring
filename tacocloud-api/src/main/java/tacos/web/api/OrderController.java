@@ -19,7 +19,7 @@ import tacos.data.OrderRepository;
 
 @RestController
 @RequestMapping(path = "/orders", produces = "application/json")
-@CrossOrigin(origins = "*")
+@CrossOrigin(origins = "*")// for Angular app
 public class OrderController {
 
 	private OrderRepository repo;

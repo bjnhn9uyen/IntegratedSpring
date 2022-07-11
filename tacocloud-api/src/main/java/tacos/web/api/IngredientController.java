@@ -25,7 +25,7 @@ import tacos.data.IngredientRepository;
  */
 @RestController
 @RequestMapping(path = "/ingredients", produces = "application/json")
-@CrossOrigin(origins = "*")
+@CrossOrigin(origins = "*")// for Angular app
 public class IngredientController {
 
 	private IngredientRepository repo;

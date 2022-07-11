@@ -30,7 +30,7 @@ import tacos.data.TacoRepository;
  */
 @RestController
 @RequestMapping(path = "/design", produces = "application/json")
-@CrossOrigin(origins = "*")
+@CrossOrigin(origins = "*")// for Angular app
 public class DesignTacoController {
 
 	private TacoRepository tacoRepo;
