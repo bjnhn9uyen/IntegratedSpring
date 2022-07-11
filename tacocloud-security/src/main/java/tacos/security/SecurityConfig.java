@@ -5,11 +5,11 @@ import java.util.Arrays;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -60,32 +60,21 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
 
-		http.csrf().and().cors().disable()
+		http.cors().and().csrf().disable()
 
-//				.headers().frameOptions().sameOrigin()
+				.authorizeRequests().antMatchers("/api/**").permitAll().anyRequest().authenticated()
 
-				/*
-				 * Because the Angular portion of the application will be running on a separate host and/or port from the API (at least for now), the
-				 * web browser will prevent your Angular client from consuming the API. This restriction can be overcome by including CORS
-				 * (Cross-Origin Resource Sharing) headers in the server responses.
-				 */
+				.and().sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
 
-				.authorizeRequests()
+				.and().authorizeRequests().and().httpBasic();
 
-				.antMatchers("/h2-console/**").permitAll()
-
-				.antMatchers(HttpMethod.GET, "/ingredients", "/design/recent").permitAll()
-
-				.antMatchers(HttpMethod.POST, "/design").permitAll()
-
-				.anyRequest().access("hasRole('ROLE_USER')")
-
-				.anyRequest().authenticated();
+		http.headers().cacheControl();
 
 		/*
 		 * Expressions can be much more flexible, suppose that you only wanted to allow users with ROLE_USER authority to create new tacos on Tuesdays
 		 */
-		// .anyRequest().access("hasRole('ROLE_USER') && T(java.util.Calendar).getInstance().get(T(java.util.Calendar).DAY_OF_WEEK) == T(java.util.Calendar).TUESDAY")
+		// .anyRequest().access("hasRole('ROLE_USER') && T(java.util.Calendar).getInstance().get(T(java.util.Calendar).DAY_OF_WEEK) ==
+		// T(java.util.Calendar).TUESDAY")
 
 		/*
 		 * To replace the built-in login page, you first need to tell Spring Security what path your custom login page will be at. Then you need to
