@@ -20,8 +20,8 @@ import tacos.data.UserRepository;
  * profile is active.
  */
 //@Profile("dev")
-@Profile("!prod")
-@Configuration
+//@Profile("!prod")
+//@Configuration
 public class DevelopmentConfig {
 
 //	@Bean

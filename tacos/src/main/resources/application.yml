@@ -13,10 +13,10 @@ spring:
   jpa:
     hibernate.ddl-auto: create
     show-sql: true
-    
   datasource:
-    initialization-mode: always
     data: classpath:ingredients.sql
+    initialization-mode: always
+    
     
 #This sets the base path for Spring Data REST end-points to /api. Consequently, the ingredients end-point is now /api/ingredients (similiar for other end-points)
   data:
