@@ -81,7 +81,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
 				.anyRequest().access("hasRole('ROLE_USER')")
 				
-				.anyRequest().authenticated()
+				.anyRequest().authenticated();
 
 				/*
 				 * Expressions can be much more flexible, suppose that you only wanted to allow users with ROLE_USER authority to create new tacos on
@@ -94,7 +94,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 				 * need to provide a controller that handles requests at this path. Because your login page will be fairly simple (nothing but a view)
 				 * it’s easy enough to declare it as a view controller in WebConfig. (see WebConfig)
 				 */
-				.and().formLogin().loginPage("/login")
+//				.and().formLogin().loginPage("/login")
 
 				/*
 				 * By default, Spring Security listens for login requests at /login and expects that the username and password fields be named
@@ -114,7 +114,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 				 */
 				// .defaultSuccessUrl("/", true)// If you enable this line, the test will fail because it expects the URL prior to logging in
 
-				.and().logout().logoutSuccessUrl("/");
+//				.and().logout().logoutSuccessUrl("/");
 	}
 	
 	@Bean
